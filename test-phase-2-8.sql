@@ -87,8 +87,23 @@ BEGIN
     RAISE NOTICE 'PASS: Run deletion preserves both history records';
 
     -- Test 2: Deleting the agent should also preserve history.
-    DELETE FROM agents WHERE id = v_agent;
+-- Test 2: Simulate the application service's transactional cleanup.
+-- Clear both references together to preserve the composite foreign keys.
+UPDATE llm_calls
+SET agent_id = NULL,
+    agent_run_id = NULL
+WHERE tenant_id = v_tenant
+  AND agent_id = v_agent;
 
+UPDATE tool_executions
+SET agent_id = NULL,
+    agent_run_id = NULL
+WHERE tenant_id = v_tenant
+  AND agent_id = v_agent;
+
+DELETE FROM agents
+WHERE id = v_agent
+  AND tenant_id = v_tenant;
     IF NOT EXISTS (
         SELECT 1 FROM llm_calls
         WHERE id = v_llm_call_for_agent_delete
