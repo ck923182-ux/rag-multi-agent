@@ -1,4 +1,4 @@
-﻿
+
 -- Phase 2: Enforce tenant relationship integrity.
 -- Review before execution against PostgreSQL.
 -- This migration is transactional but is not fully idempotent.
