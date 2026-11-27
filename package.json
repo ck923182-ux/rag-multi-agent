@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "dotenv": "^17.4.2",
+    "js-tiktoken": "^1.0.21",
     "pg": "^8.23.0",
     "redis": "^6.2.1",
     "zod": "^4.6.2"
